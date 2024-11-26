@@ -1,61 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Web App</title>
+  <title>Improved Web App</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .hidden { display: none; }
+    .container {
+      margin: 20px auto;
+      max-width: 600px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    .feature-card {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .feature-category {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+    #resultsLog {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      background: #f1f1f1;
+    }
+    #resultsLog h3 {
+      margin-top: 0;
+    }
+    /* Mobile responsiveness */
+    @media only screen and (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 10px;
+      }
+      .feature-card {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div id="navbar" class="hidden">
-  <a href="#" id="homeBtn" class="button">Home</a>
-  <a href="#" id="logoutBtn" class="button right" onclick="logOut()">Log Out</a>
+<div id="navbar" class="w3-bar w3-black hidden">
+  <a href="#" id="logoutBtn" class="w3-bar-item w3-button w3-right" onclick="logOut()">Log Out</a>
 </div>
 
 <!-- Login Section -->
 <div id="loginSection" class="container">
   <h2>Log In</h2>
   <form id="loginForm">
-    <input class="input" type="text" id="loginUsername" placeholder="Username" required>
-    <input class="input" type="password" id="loginPassword" placeholder="Password" required>
-    <button type="button" class="button primary" onclick="logIn()">Log In</button>
+    <input class="w3-input w3-margin-bottom" type="text" placeholder="Username" required>
+    <input class="w3-input w3-margin-bottom" type="password" placeholder="Password" required>
+    <button type="button" class="w3-button w3-blue w3-block" onclick="logIn()">Log In</button>
   </form>
-  <button class="button secondary" onclick="toggleSignUp()">Sign Up</button>
+  <button class="w3-button w3-green w3-block" onclick="toggleSignUp()">Sign Up</button>
 </div>
 
 <!-- Sign-Up Section -->
 <div id="signUpSection" class="container hidden">
   <h2>Sign Up</h2>
   <form id="signUpForm">
-    <input class="input" type="text" id="signUpUsername" placeholder="Username" required>
-    <input class="input" type="password" id="signUpPassword" placeholder="Password" required>
-    <input class="input" type="password" id="confirmPassword" placeholder="Confirm Password" required>
-    <button type="button" class="button primary" onclick="signUp()">Sign Up</button>
+    <input class="w3-input w3-margin-bottom" type="text" placeholder="Username" required>
+    <input class="w3-input w3-margin-bottom" type="password" placeholder="Password" required>
+    <input class="w3-input w3-margin-bottom" type="password" placeholder="Confirm Password" required>
+    <button type="button" class="w3-button w3-green w3-block" onclick="signUp()">Sign Up</button>
   </form>
-  <button class="button secondary" onclick="toggleLogin()">Back to Login</button>
+  <button class="w3-button w3-gray w3-block" onclick="toggleLogin()">Back to Login</button>
 </div>
 
-<!-- Main Content -->
+<!-- Main Content (visible after login) -->
 <div id="mainContent" class="hidden">
   <div class="container">
     <h2>Welcome, User!</h2>
     <p>Select and use a feature below:</p>
 
-    <!-- Feature Cards -->
+    <!-- Conversion Features -->
+    <div class="feature-category">Unit Conversions</div>
     <div class="feature-card">
       <h3>Celsius to Fahrenheit</h3>
-      <input type="number" id="cToFInput" class="input" placeholder="Enter Celsius">
-      <button class="button" onclick="convertCtoF()">Convert</button>
+      <input type="number" id="cToFInput" class="w3-input" placeholder="Enter Celsius">
+      <button class="w3-button w3-teal w3-block" onclick="convertCtoF()">Convert</button>
     </div>
     <div class="feature-card">
       <h3>Fahrenheit to Celsius</h3>
-      <input type="number" id="fToCInput" class="input" placeholder="Enter Fahrenheit">
-      <button class="button" onclick="convertFtoC()">Convert</button>
+      <input type="number" id="fToCInput" class="w3-input" placeholder="Enter Fahrenheit">
+      <button class="w3-button w3-teal w3-block" onclick="convertFtoC()">Convert</button>
     </div>
+
+    <!-- Income Tax Calculator -->
+    <div class="feature-category">Income Tax Calculator</div>
+    <div class="feature-card">
+      <h3>Calculate Income Tax</h3>
+      <input type="number" id="incomeInput" class="w3-input" placeholder="Enter Income">
+      <button class="w3-button w3-teal w3-block" onclick="calculateTax()">Calculate</button>
+    </div>
+
+    <!-- Factorial -->
+    <div class="feature-category">Factorial (While Loop)</div>
+    <div class="feature-card">
+      <h3>Find Factorial</h3>
+      <input type="number" id="factorialInput" class="w3-input" placeholder="Enter Number">
+      <button class="w3-button w3-teal w3-block" onclick="findFactorial()">Calculate</button>
+    </div>
+
+    <!-- Other Features -->
+    <div class="feature-category">Other Calculations</div>
+    <div class="feature-card">
+      <h3>Sum (Do While Loop)</h3>
+      <input type="number" id="sumInput" class="w3-input" placeholder="Enter N">
+      <button class="w3-button w3-teal w3-block" onclick="calculateSum()">Calculate</button>
+    </div>
+    <div class="feature-card">
+      <h3>Average (For Loop)</h3>
+      <input type="number" id="averageInput" class="w3-input" placeholder="Enter N">
+      <button class="w3-button w3-teal w3-block" onclick="calculateAverage()">Calculate</button>
+    </div>
+  </div>
+
+  <!-- Results Log -->
+  <div id="resultsLog" class="hidden">
+    <h3>Results Log</h3>
+    <ul id="resultsList"></ul>
+    <button class="w3-button w3-red w3-block" onclick="clearResults()">Clear Log</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+  // Login and Sign-Up Logic
+  const loginSection = document.getElementById('loginSection');
+  const signUpSection = document.getElementById('signUpSection');
+  const mainContent = document.getElementById('mainContent');
+  const navbar = document.getElementById('navbar');
+  const resultsLog = document.getElementById('resultsLog');
+  const resultsList = document.getElementById('resultsList');
+
+  function logIn() {
+    alert('Login successful!');
+    loginSection.classList.add('hidden');
+    mainContent.classList.remove('hidden');
+    navbar.classList.remove('hidden');
+  }
+
+  function signUp() {
+    alert('Sign-up successful! You can now log in.');
+    toggleLogin();
+  }
+
+  function logOut() {
+    alert('Logged out successfully.');
+    mainContent.classList.add('hidden');
+    navbar.classList.add('hidden');
+    loginSection.classList.remove('hidden');
+  }
+
+  function toggleSignUp() {
+    loginSection.classList.add('hidden');
+    signUpSection.classList.remove('hidden');
+  }
+
+  function toggleLogin() {
+    signUpSection.classList.add('hidden');
+    loginSection.classList.remove('hidden');
+  }
+
+  // Feature Logic (Examples)
+  function convertCtoF() {
+    let celsius = parseFloat(document.getElementById('cToFInput').value);
+    let fahrenheit = (celsius * 9/5) + 32;
+    logResult(`Celsius ${celsius}°C = Fahrenheit ${fahrenheit}°F`);
+  }
+
+  function convertFtoC() {
+    let fahrenheit = parseFloat(document.getElementById('fToCInput').value);
+    let celsius = (fahrenheit - 32) * 5/9;
+    logResult(`Fahrenheit ${fahrenheit}°F = Celsius ${celsius}°C`);
+  }
+
+  function calculateTax() {
+    let income = parseFloat(document.getElementById('incomeInput').value);
+    let tax = income * 0.2; // Assuming a flat 20% tax rate
+    logResult(`Income: ${income} Tax: ${tax}`);
+  }
+
+  function findFactorial() {
+    let num = parseInt(document.getElementById('factorialInput').value);
+    let factorial = 1;
+    for (let i = 1; i <= num; i++) {
+      factorial *= i;
+    }
+    logResult(`Factorial of ${num} is ${factorial}`);
+  }
+
+  function calculateSum() {
+    let num = parseInt(document.getElementById('sumInput').value);
+    let sum = 0;
+    let i = 1;
+    do {
+      sum += i;
+      i++;
+    } while (i <= num);
+    logResult(`Sum of numbers from 1 to ${num} is ${sum}`);
+  }
+
+  function calculateAverage() {
+    let num = parseInt(document.getElementById('averageInput').value);
+    let sum = 0;
+    for (let i = 1; i <= num; i++) {
+      sum += i;
+    }
+    let average = sum / num;
+    logResult(`Average of numbers from 1 to ${num} is ${average}`);
+  }
+
+  // Logging Results
+  function logResult(result) {
+    let li = document.createElement('li');
+    li.textContent = result;
+    resultsList.appendChild(li);
+    resultsLog.classList.remove('hidden');
+  }
+
+  function clearResults() {
+    resultsList.innerHTML = '';
+    resultsLog.classList.add('hidden');
+  }
+</script>
+
 </body>
 </html>
