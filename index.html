@@ -136,7 +136,6 @@
 
 <!-- Menu -->
 <div id="menu" class="menu">
-  <button onclick="toggleHome()">Home</button>
   <button onclick="toggleActivityLog()">Activity Log</button>
   <button onclick="logOut()">Log Out</button>
 </div>
@@ -243,10 +242,6 @@
     } else {
       document.getElementById("payrollResult").textContent = "Invalid input.";
     }
-  }
-
-  function toggleHome() {
-    alert("You are already on the home screen.");
   }
 
   function toggleActivityLog() {
