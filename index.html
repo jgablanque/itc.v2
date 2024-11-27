@@ -210,7 +210,7 @@
       }
       const average = sum / n;
       document.getElementById("sumAverageResult").textContent = `Sum: ${sum}, Average: ${average}`;
-      activityLog.push(`Sum and Average (N=${n}): Sum=${sum}, Average=${average}`);
+      activityLog.push(`Sum of first ${n} numbers: ${sum}, Average: ${average}`);
     } else {
       document.getElementById("sumAverageResult").textContent = "Invalid input.";
     }
@@ -218,15 +218,14 @@
 
   function calculateIncomeTax() {
     const income = parseFloat(document.getElementById("incomeInput").value);
-    if (!isNaN(income) && income >= 0) {
+    if (!isNaN(income)) {
       let tax = 0;
-      if (income > 50000) {
-        tax = (income - 50000) * 0.2 + 50000 * 0.1;
-      } else {
-        tax = income * 0.1;
-      }
-      document.getElementById("incomeTaxResult").textContent = `Income Tax: $${tax.toFixed(2)}`;
-      activityLog.push(`Income Tax (Income=${income}): ${tax.toFixed(2)}`);
+      if (income <= 250000) tax = 0;
+      else if (income <= 500000) tax = (income - 250000) * 0.05;
+      else if (income <= 1000000) tax = (income - 500000) * 0.2 + 12500;
+      else tax = (income - 1000000) * 0.3 + 12500 + 100000;
+      document.getElementById("incomeTaxResult").textContent = `Tax: ₹${tax.toFixed(2)}`;
+      activityLog.push(`Income tax for ₹${income}: ₹${tax.toFixed(2)}`);
     } else {
       document.getElementById("incomeTaxResult").textContent = "Invalid input.";
     }
@@ -237,15 +236,21 @@
     const pay = parseFloat(document.getElementById("payPerHour").value);
     if (!isNaN(hours) && !isNaN(pay) && hours >= 0 && pay >= 0) {
       const payroll = hours * pay;
-      document.getElementById("payrollResult").textContent = `Payroll: $${payroll.toFixed(2)}`;
-      activityLog.push(`Payroll: Hours=${hours}, Pay=${pay}, Total=${payroll.toFixed(2)}`);
+      document.getElementById("payrollResult").textContent = `Payroll: ₹${payroll.toFixed(2)}`;
+      activityLog.push(`Payroll for ${hours} hours at ₹${pay} per hour: ₹${payroll.toFixed(2)}`);
     } else {
       document.getElementById("payrollResult").textContent = "Invalid input.";
     }
   }
 
   function toggleActivityLog() {
-    alert("Activity Log:\n" + activityLog.join("\n"));
+    const logWindow = window.open("", "Activity Log", "width=400,height=300");
+    logWindow.document.write("<h3>Activity Log</h3>");
+    logWindow.document.write("<ul>");
+    activityLog.forEach((log) => {
+      logWindow.document.write(`<li>${log}</li>`);
+    });
+    logWindow.document.write("</ul>");
   }
 </script>
 
