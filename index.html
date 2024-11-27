@@ -10,6 +10,7 @@
       font-family: "Arial", sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f3f3f3;
     }
     .hidden { display: none; }
     .container {
@@ -18,7 +19,7 @@
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 10px;
-      background: #f9f9f9;
+      background: #fff;
     }
     .feature-card {
       margin-bottom: 20px;
@@ -34,9 +35,24 @@
       border-bottom: 2px solid #ccc;
       padding-bottom: 5px;
     }
-    .error {
-      color: red;
-      font-size: 12px;
+    .menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #333;
+      color: #fff;
+      text-align: center;
+      display: none;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .menu button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
     }
     @media only screen and (max-width: 600px) {
       .container {
@@ -46,27 +62,6 @@
       .feature-card {
         padding: 10px;
       }
-    }
-    .menu {
-      position: fixed;
-      bottom: -100px; /* Hidden by default */
-      width: 100%;
-      background: #333;
-      color: #fff;
-      text-align: center;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
-      transition: bottom 0.3s ease-in-out;
-    }
-    .menu.visible {
-      bottom: 0;
-    }
-    .menu button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 16px;
     }
   </style>
 </head>
@@ -103,7 +98,7 @@
       <div id="conversionResult" class="w3-margin-top"></div>
     </div>
 
-    <!-- Factorial -->
+    <!-- Additional Features -->
     <div class="feature-category">Factorial (While Loop)</div>
     <div class="feature-card">
       <h3>Find Factorial</h3>
@@ -112,28 +107,25 @@
       <div id="factorialResult" class="w3-margin-top"></div>
     </div>
 
-    <!-- Sum and Average -->
-    <div class="feature-category">Sum and Average Calculators</div>
+    <div class="feature-category">Sum and Average (First N Natural Numbers)</div>
     <div class="feature-card">
-      <h3>Sum and Average of First N Natural Numbers</h3>
-      <input type="number" id="naturalNumberInput" class="w3-input" placeholder="Enter N">
+      <h3>Calculate Sum and Average</h3>
+      <input type="number" id="sumAverageInput" class="w3-input" placeholder="Enter N">
       <button class="w3-button w3-teal w3-block" onclick="calculateSumAndAverage()">Calculate</button>
       <div id="sumAverageResult" class="w3-margin-top"></div>
     </div>
 
-    <!-- Income Tax Calculator -->
     <div class="feature-category">Income Tax Calculator</div>
     <div class="feature-card">
-      <h3>Income Tax Calculator</h3>
-      <input type="number" id="incomeInput" class="w3-input" placeholder="Enter Annual Income">
-      <button class="w3-button w3-teal w3-block" onclick="calculateIncomeTax()">Calculate Tax</button>
+      <h3>Calculate Income Tax</h3>
+      <input type="number" id="incomeInput" class="w3-input" placeholder="Enter Income">
+      <button class="w3-button w3-teal w3-block" onclick="calculateIncomeTax()">Calculate</button>
       <div id="incomeTaxResult" class="w3-margin-top"></div>
     </div>
 
-    <!-- Payroll Feature -->
-    <div class="feature-category">Payroll System</div>
+    <div class="feature-category">Payroll Calculator</div>
     <div class="feature-card">
-      <h3>Payroll Calculator</h3>
+      <h3>Calculate Payroll</h3>
       <input type="number" id="hoursWorked" class="w3-input" placeholder="Hours Worked">
       <input type="number" id="payPerHour" class="w3-input" placeholder="Pay Per Hour">
       <button class="w3-button w3-teal w3-block" onclick="calculatePayroll()">Calculate Payroll</button>
@@ -143,7 +135,7 @@
 </div>
 
 <!-- Menu -->
-<div class="menu" id="menu">
+<div id="menu" class="menu">
   <button onclick="toggleHome()">Home</button>
   <button onclick="toggleActivityLog()">Activity Log</button>
   <button onclick="logOut()">Log Out</button>
@@ -158,7 +150,7 @@
       document.getElementById("usernameDisplay").textContent = username;
       document.getElementById("loginSection").classList.add("hidden");
       document.getElementById("mainContent").classList.remove("hidden");
-      toggleMenu();
+      document.getElementById("menu").style.display = "flex";
     } else {
       alert("Please enter a username.");
     }
@@ -167,11 +159,6 @@
   function logOut() {
     alert("Logged out successfully.");
     location.reload();
-  }
-
-  function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.classList.toggle("visible");
   }
 
   function performConversion() {
@@ -192,14 +179,12 @@
         case "FtoM":
           result = `${value} feet = ${(value / 3.28084).toFixed(2)} meters`;
           break;
-        default:
-          result = "Invalid Conversion Type.";
       }
+      document.getElementById("conversionResult").textContent = result;
+      activityLog.push(`Conversion (${type}): ${result}`);
     } else {
-      result = "Invalid input.";
+      document.getElementById("conversionResult").textContent = "Invalid input.";
     }
-    document.getElementById("conversionResult").textContent = result;
-    activityLog.push(result);
   }
 
   function findFactorial() {
@@ -218,15 +203,15 @@
   }
 
   function calculateSumAndAverage() {
-    const n = parseInt(document.getElementById("naturalNumberInput").value);
+    const n = parseInt(document.getElementById("sumAverageInput").value);
     if (!isNaN(n) && n > 0) {
       let sum = 0;
       for (let i = 1; i <= n; i++) {
         sum += i;
       }
-      const avg = sum / n;
-      document.getElementById("sumAverageResult").textContent = `Sum: ${sum}, Average: ${avg}`;
-      activityLog.push(`Sum of first ${n} natural numbers: ${sum}, Average: ${avg}`);
+      const average = sum / n;
+      document.getElementById("sumAverageResult").textContent = `Sum: ${sum}, Average: ${average}`;
+      activityLog.push(`Sum and Average (N=${n}): Sum=${sum}, Average=${average}`);
     } else {
       document.getElementById("sumAverageResult").textContent = "Invalid input.";
     }
@@ -236,10 +221,13 @@
     const income = parseFloat(document.getElementById("incomeInput").value);
     if (!isNaN(income) && income >= 0) {
       let tax = 0;
-      if (income > 50000) tax = income * 0.2;
-      else if (income > 30000) tax = income * 0.1;
-      document.getElementById("incomeTaxResult").textContent = `Tax: $${tax.toFixed(2)}`;
-      activityLog.push(`Income: $${income}, Tax: $${tax.toFixed(2)}`);
+      if (income > 50000) {
+        tax = (income - 50000) * 0.2 + 50000 * 0.1;
+      } else {
+        tax = income * 0.1;
+      }
+      document.getElementById("incomeTaxResult").textContent = `Income Tax: $${tax.toFixed(2)}`;
+      activityLog.push(`Income Tax (Income=${income}): ${tax.toFixed(2)}`);
     } else {
       document.getElementById("incomeTaxResult").textContent = "Invalid input.";
     }
@@ -249,12 +237,16 @@
     const hours = parseFloat(document.getElementById("hoursWorked").value);
     const pay = parseFloat(document.getElementById("payPerHour").value);
     if (!isNaN(hours) && !isNaN(pay) && hours >= 0 && pay >= 0) {
-      const payroll = (hours * pay).toFixed(2);
-      document.getElementById("payrollResult").textContent = `Payroll: $${payroll}`;
-      activityLog.push(`Hours: ${hours}, Pay: $${pay}, Payroll: $${payroll}`);
+      const payroll = hours * pay;
+      document.getElementById("payrollResult").textContent = `Payroll: $${payroll.toFixed(2)}`;
+      activityLog.push(`Payroll: Hours=${hours}, Pay=${pay}, Total=${payroll.toFixed(2)}`);
     } else {
       document.getElementById("payrollResult").textContent = "Invalid input.";
     }
+  }
+
+  function toggleHome() {
+    alert("You are already on the home screen.");
   }
 
   function toggleActivityLog() {
