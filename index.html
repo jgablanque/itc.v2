@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Improved Web App with Payroll</title>
+  <title>Responsive Web App</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <style>
     body {
@@ -34,21 +34,10 @@
       border-bottom: 2px solid #ccc;
       padding-bottom: 5px;
     }
-    #resultsLog {
-      margin-top: 20px;
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 5px;
-      background: #f1f1f1;
-    }
-    #resultsLog h3 {
-      margin-top: 0;
-    }
     .error {
       color: red;
       font-size: 12px;
     }
-    /* Mobile responsiveness */
     @media only screen and (max-width: 600px) {
       .container {
         width: 90%;
@@ -58,13 +47,30 @@
         padding: 10px;
       }
     }
+    .menu {
+      position: fixed;
+      bottom: -100px; /* Hidden by default */
+      width: 100%;
+      background: #333;
+      color: #fff;
+      text-align: center;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      transition: bottom 0.3s ease-in-out;
+    }
+    .menu.visible {
+      bottom: 0;
+    }
+    .menu button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-
-<div id="navbar" class="w3-bar w3-black hidden">
-  <a href="#" id="logoutBtn" class="w3-bar-item w3-button w3-right" onclick="logOut()">Log Out</a>
-</div>
 
 <!-- Login Section -->
 <div id="loginSection" class="container">
@@ -74,52 +80,27 @@
     <input class="w3-input w3-margin-bottom" type="password" id="password" placeholder="Password" required>
     <button type="button" class="w3-button w3-blue w3-block" onclick="logIn()">Log In</button>
   </form>
-  <button class="w3-button w3-green w3-block" onclick="toggleSignUp()">Sign Up</button>
 </div>
 
-<!-- Sign-Up Section -->
-<div id="signUpSection" class="container hidden">
-  <h2>Sign Up</h2>
-  <form id="signUpForm">
-    <input class="w3-input w3-margin-bottom" type="text" id="signupUsername" placeholder="Username" required>
-    <input class="w3-input w3-margin-bottom" type="password" id="signupPassword" placeholder="Password" required>
-    <input class="w3-input w3-margin-bottom" type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
-    <button type="button" class="w3-button w3-green w3-block" onclick="signUp()">Sign Up</button>
-  </form>
-  <button class="w3-button w3-gray w3-block" onclick="toggleLogin()">Back to Login</button>
-</div>
-
-<!-- Main Content (visible after login) -->
+<!-- Main Content -->
 <div id="mainContent" class="hidden">
   <div class="container">
-    <h2>Welcome, User!</h2>
-    <p>Select and use a feature below:</p>
+    <h2>Welcome, <span id="usernameDisplay">User</span>!</h2>
+    <p>Select a feature below:</p>
 
     <!-- Conversion Features -->
     <div class="feature-category">Unit Conversions</div>
     <div class="feature-card">
-      <h3>Celsius to Fahrenheit</h3>
-      <input type="number" id="cToFInput" class="w3-input" placeholder="Enter Celsius">
-      <button class="w3-button w3-teal w3-block" onclick="convertCtoF()">Convert</button>
-      <div id="cToFError" class="error"></div>
-      <div id="cToFResult" class="w3-margin-top"></div> <!-- Result display -->
-    </div>
-    <div class="feature-card">
-      <h3>Fahrenheit to Celsius</h3>
-      <input type="number" id="fToCInput" class="w3-input" placeholder="Enter Fahrenheit">
-      <button class="w3-button w3-teal w3-block" onclick="convertFtoC()">Convert</button>
-      <div id="fToCError" class="error"></div>
-      <div id="fToCResult" class="w3-margin-top"></div> <!-- Result display -->
-    </div>
-
-    <!-- Income Tax Calculator -->
-    <div class="feature-category">Income Tax Calculator</div>
-    <div class="feature-card">
-      <h3>Calculate Income Tax</h3>
-      <input type="number" id="incomeInput" class="w3-input" placeholder="Enter Income">
-      <button class="w3-button w3-teal w3-block" onclick="calculateTax()">Calculate</button>
-      <div id="incomeError" class="error"></div>
-      <div id="incomeResult" class="w3-margin-top"></div> <!-- Result display -->
+      <h3>Choose Conversion Type</h3>
+      <select id="conversionType" class="w3-select">
+        <option value="CtoF">Celsius to Fahrenheit</option>
+        <option value="FtoC">Fahrenheit to Celsius</option>
+        <option value="MtoF">Meters to Feet</option>
+        <option value="FtoM">Feet to Meters</option>
+      </select>
+      <input type="number" id="conversionInput" class="w3-input w3-margin-top" placeholder="Enter Value">
+      <button class="w3-button w3-teal w3-block" onclick="performConversion()">Convert</button>
+      <div id="conversionResult" class="w3-margin-top"></div>
     </div>
 
     <!-- Factorial -->
@@ -128,93 +109,158 @@
       <h3>Find Factorial</h3>
       <input type="number" id="factorialInput" class="w3-input" placeholder="Enter Number">
       <button class="w3-button w3-teal w3-block" onclick="findFactorial()">Calculate</button>
-      <div id="factorialError" class="error"></div>
-      <div id="factorialResult" class="w3-margin-top"></div> <!-- Result display -->
+      <div id="factorialResult" class="w3-margin-top"></div>
+    </div>
+
+    <!-- Sum and Average -->
+    <div class="feature-category">Sum and Average Calculators</div>
+    <div class="feature-card">
+      <h3>Sum and Average of First N Natural Numbers</h3>
+      <input type="number" id="naturalNumberInput" class="w3-input" placeholder="Enter N">
+      <button class="w3-button w3-teal w3-block" onclick="calculateSumAndAverage()">Calculate</button>
+      <div id="sumAverageResult" class="w3-margin-top"></div>
+    </div>
+
+    <!-- Income Tax Calculator -->
+    <div class="feature-category">Income Tax Calculator</div>
+    <div class="feature-card">
+      <h3>Income Tax Calculator</h3>
+      <input type="number" id="incomeInput" class="w3-input" placeholder="Enter Annual Income">
+      <button class="w3-button w3-teal w3-block" onclick="calculateIncomeTax()">Calculate Tax</button>
+      <div id="incomeTaxResult" class="w3-margin-top"></div>
     </div>
 
     <!-- Payroll Feature -->
     <div class="feature-category">Payroll System</div>
     <div class="feature-card">
       <h3>Payroll Calculator</h3>
-      <input type="number" id="salaryInput" class="w3-input" placeholder="Enter Gross Salary">
-      <input type="number" id="deductionsInput" class="w3-input" placeholder="Enter Deductions">
+      <input type="number" id="hoursWorked" class="w3-input" placeholder="Hours Worked">
+      <input type="number" id="payPerHour" class="w3-input" placeholder="Pay Per Hour">
       <button class="w3-button w3-teal w3-block" onclick="calculatePayroll()">Calculate Payroll</button>
-      <div id="payrollError" class="error"></div>
-      <div id="payrollResult" class="w3-margin-top"></div> <!-- Result display -->
+      <div id="payrollResult" class="w3-margin-top"></div>
     </div>
   </div>
 </div>
 
+<!-- Menu -->
+<div class="menu" id="menu">
+  <button onclick="toggleHome()">Home</button>
+  <button onclick="toggleActivityLog()">Activity Log</button>
+  <button onclick="logOut()">Log Out</button>
+</div>
+
 <script>
-  // Login and Sign-Up Logic
-  const loginSection = document.getElementById('loginSection');
-  const signUpSection = document.getElementById('signUpSection');
-  const mainContent = document.getElementById('mainContent');
-  const navbar = document.getElementById('navbar');
+  let activityLog = [];
 
   function logIn() {
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
-    if (username === "" || password === "") {
-      alert("Please enter both username and password.");
-      return;
+    const username = document.getElementById("username").value;
+    if (username) {
+      document.getElementById("usernameDisplay").textContent = username;
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("mainContent").classList.remove("hidden");
+      toggleMenu();
+    } else {
+      alert("Please enter a username.");
     }
-    alert('Login successful!');
-    loginSection.classList.add('hidden');
-    mainContent.classList.remove('hidden');
-    navbar.classList.remove('hidden');
-  }
-
-  function signUp() {
-    let username = document.getElementById('signupUsername').value;
-    let password = document.getElementById('signupPassword').value;
-    let confirmPassword = document.getElementById('signupConfirmPassword').value;
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-    if (username === "" || password === "") {
-      alert("Please fill all fields.");
-      return;
-    }
-    alert('Sign-up successful! You can now log in.');
-    toggleLogin();
   }
 
   function logOut() {
-    alert('Logged out successfully.');
-    mainContent.classList.add('hidden');
-    navbar.classList.add('hidden');
-    loginSection.classList.remove('hidden');
+    alert("Logged out successfully.");
+    location.reload();
   }
 
-  function toggleSignUp() {
-    loginSection.classList.add('hidden');
-    signUpSection.classList.remove('hidden');
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.classList.toggle("visible");
   }
 
-  function toggleLogin() {
-    signUpSection.classList.add('hidden');
-    loginSection.classList.remove('hidden');
-  }
-
-  // Payroll Calculation
-  function calculatePayroll() {
-    let salary = parseFloat(document.getElementById('salaryInput').value);
-    let deductions = parseFloat(document.getElementById('deductionsInput').value);
-
-    if (isNaN(salary) || salary <= 0 || isNaN(deductions) || deductions < 0) {
-      document.getElementById('payrollError').textContent = "Please enter valid salary and deductions.";
-      return;
+  function performConversion() {
+    const type = document.getElementById("conversionType").value;
+    const value = parseFloat(document.getElementById("conversionInput").value);
+    let result = "";
+    if (!isNaN(value)) {
+      switch (type) {
+        case "CtoF":
+          result = `${value}°C = ${(value * 9) / 5 + 32}°F`;
+          break;
+        case "FtoC":
+          result = `${value}°F = ${((value - 32) * 5) / 9}°C`;
+          break;
+        case "MtoF":
+          result = `${value} meters = ${(value * 3.28084).toFixed(2)} feet`;
+          break;
+        case "FtoM":
+          result = `${value} feet = ${(value / 3.28084).toFixed(2)} meters`;
+          break;
+        default:
+          result = "Invalid Conversion Type.";
+      }
+    } else {
+      result = "Invalid input.";
     }
-
-    let netSalary = salary - deductions;
-    document.getElementById('payrollResult').textContent = `Net Salary: $${netSalary.toFixed(2)}`;
-    document.getElementById('payrollError').textContent = "";
+    document.getElementById("conversionResult").textContent = result;
+    activityLog.push(result);
   }
 
-  // Other Calculation Features (for conversion, tax, factorial, etc.)...
+  function findFactorial() {
+    const num = parseInt(document.getElementById("factorialInput").value);
+    if (!isNaN(num) && num >= 0) {
+      let result = 1;
+      let i = 1;
+      while (i <= num) {
+        result *= i++;
+      }
+      document.getElementById("factorialResult").textContent = `Factorial: ${result}`;
+      activityLog.push(`Factorial of ${num}: ${result}`);
+    } else {
+      document.getElementById("factorialResult").textContent = "Invalid input.";
+    }
+  }
 
+  function calculateSumAndAverage() {
+    const n = parseInt(document.getElementById("naturalNumberInput").value);
+    if (!isNaN(n) && n > 0) {
+      let sum = 0;
+      for (let i = 1; i <= n; i++) {
+        sum += i;
+      }
+      const avg = sum / n;
+      document.getElementById("sumAverageResult").textContent = `Sum: ${sum}, Average: ${avg}`;
+      activityLog.push(`Sum of first ${n} natural numbers: ${sum}, Average: ${avg}`);
+    } else {
+      document.getElementById("sumAverageResult").textContent = "Invalid input.";
+    }
+  }
+
+  function calculateIncomeTax() {
+    const income = parseFloat(document.getElementById("incomeInput").value);
+    if (!isNaN(income) && income >= 0) {
+      let tax = 0;
+      if (income > 50000) tax = income * 0.2;
+      else if (income > 30000) tax = income * 0.1;
+      document.getElementById("incomeTaxResult").textContent = `Tax: $${tax.toFixed(2)}`;
+      activityLog.push(`Income: $${income}, Tax: $${tax.toFixed(2)}`);
+    } else {
+      document.getElementById("incomeTaxResult").textContent = "Invalid input.";
+    }
+  }
+
+  function calculatePayroll() {
+    const hours = parseFloat(document.getElementById("hoursWorked").value);
+    const pay = parseFloat(document.getElementById("payPerHour").value);
+    if (!isNaN(hours) && !isNaN(pay) && hours >= 0 && pay >= 0) {
+      const payroll = (hours * pay).toFixed(2);
+      document.getElementById("payrollResult").textContent = `Payroll: $${payroll}`;
+      activityLog.push(`Hours: ${hours}, Pay: $${pay}, Payroll: $${payroll}`);
+    } else {
+      document.getElementById("payrollResult").textContent = "Invalid input.";
+    }
+  }
+
+  function toggleActivityLog() {
+    alert("Activity Log:\n" + activityLog.join("\n"));
+  }
 </script>
+
 </body>
 </html>
