@@ -1,0 +1,11 @@
+# Node.js files (if applicable)
+node_modules/
+
+# VSCode settings
+.vscode/
+
+# System files
+.DS_Store
+
+# Log files
+*.log
